@@ -14,14 +14,14 @@ def regles():
           "Vous avez 6 vies\n"
           "Bonne chance \n\n" )
 
-def retirer_accents(mots):
-    return ''.join(accents.get(lettre, lettre) for lettre in mots)
-
 def charger_mots(fichier):
     with open(fichier, "r", encoding="utf-8") as fichier:
         mots = [retirer_accents(line.strip().lower()) for line in fichier]
     return mots
-
+    
+def retirer_accents(mots):
+    return ''.join(accents.get(lettre, lettre) for lettre in mots)
+    
 def rejouer():
     choix = input("voulez vous rejouer ? (oui/non) \n")
     if choix ==  'oui' :
@@ -29,9 +29,12 @@ def rejouer():
     else :
         print("\nau revoir !")
 
-
 def pendu():
     regles()
+    vies = 6
+    bonnes_lettres = []
+    mauvaises_lettres= []
+    
     demande_fichier=input('Avez vous un fichier de mots avec lequel jouer ? (oui/non) \n')
     if demande_fichier == 'oui':
         fichier = input ("insérer le nom complet du fichier avec l'extension txt \n")
@@ -39,10 +42,7 @@ def pendu():
         fichier = 'mots_pendu.txt'
     mots = charger_mots(fichier)
     mot_choisi = random.choice(mots)
-    bonnes_lettres = []
-    mauvaises_lettres= []
-    vies = 6
-
+    
     while vies > 0:
         affichage = "".join([lettre if lettre in bonnes_lettres else "_" for lettre in mot_choisi])
         print(f"\nMot à deviner: {affichage}")
@@ -70,7 +70,6 @@ def pendu():
 
     if vies == 0 :
         print(f"\nVous n'avez plus de vies restantes, c'est perdu \nLe bon mot était {mot_choisi}\n")
-
         rejouer()
 
 
